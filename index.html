@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Desa Virtual — Dunia Warga</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+    {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+  </script>
+</head>
+<body>
+  <header>
+    <div><strong>DESA VIRTUAL</strong><small>Dunia komunitas digital</small></div>
+    <div id="accountArea"><span id="status">Mode pratinjau</span></div>
+  </header>
+  <main>
+    <section class="hero">
+      <div><h1>Selamat datang di desa kita.</h1><p>Jelajahi dunia 3D, kenali warga, dan bangun komunitas bersama.</p></div>
+      <div class="pill">Versi awal • Gratis</div>
+    </section>
+    <section class="layout">
+      <div class="world panel">
+        <div class="panel-title"><div><h2>Dunia 3D</h2><p>Gunakan tombol panah atau WASD untuk bergerak.</p></div><button id="resetView" class="secondary">Atur kamera</button></div>
+        <div id="world"></div>
+        <div class="world-note">Pratinjau dunia 3D. Bangunan contoh belum tersimpan ke database.</div>
+      </div>
+      <aside class="panel side">
+        <h2>Akun warga</h2>
+        <div id="authBox">
+          <label>Email<input id="email" type="email" placeholder="nama@email.com"></label>
+          <label>Kata sandi<input id="password" type="password" placeholder="Minimal 8 karakter"></label>
+          <div class="buttons"><button id="signup">Daftar</button><button id="login" class="secondary">Masuk</button></div>
+          <p class="hint">Akun dan penyimpanan online aktif setelah kamu menghubungkan Supabase. Jangan gunakan kata sandi yang sama dengan akun pentingmu.</p>
+        </div>
+        <div id="profileBox" hidden>
+          <p id="profileInfo"></p><p>Saldo internal: <strong id="balance">— CC</strong></p>
+          <button id="logout" class="secondary">Keluar</button>
+        </div>
+        <hr>
+        <h2>Fitur desa</h2>
+        <div class="feature"><b>Profil & avatar</b><span>Kerangka awal tersedia; editor avatar dikembangkan berikutnya.</span></div>
+        <div class="feature"><b>Obrolan warga</b><span>Database siap disiapkan; tampilan chat akan ditambahkan pada tahap berikutnya.</span></div>
+        <div class="feature"><b>Pasar warga</b><span>Struktur data produk disiapkan; belum menerima pembayaran.</span></div>
+        <div class="feature"><b>Saldo virtual</b><span>CC hanya kredit internal, bukan uang dan tidak dapat dicairkan.</span></div>
+      </aside>
+    </section>
+    <section class="panel admin">
+      <h2>Panel pembangunan</h2>
+      <p>Pengelolaan bangunan permanen hanya untuk akun yang ditetapkan sebagai admin melalui dashboard database. Warga biasa tidak boleh mengubah peta.</p>
+      <p id="adminStatus" class="hint">Masuk untuk memeriksa peran akun.</p>
+    </section>
+  </main>
+  <footer>Desa Virtual • Prototipe komunitas 3D • Bukan layanan transaksi uang</footer>
+  <dialog id="notice"><div class="dialog-inner"><h3 id="noticeTitle">Informasi</h3><p id="noticeText"></p><button id="closeNotice">Tutup</button></div></dialog>
+  <script>
+    window.DESAV_CONFIG = { supabaseUrl: "", supabaseAnonKey: "" };
+  </script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
