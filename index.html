@@ -1,61 +1,235 @@
+
 <!doctype html>
 <html lang="id">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#173d2b">
   <title>Desa Virtual — Dunia Warga</title>
   <link rel="stylesheet" href="style.css">
+
   <script type="importmap">
-    {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
   </script>
 </head>
+
 <body>
-  <header>
-    <div><strong>DESA VIRTUAL</strong><small>Dunia komunitas digital</small></div>
-    <div id="accountArea"><span id="status">Mode pratinjau</span></div>
-  </header>
-  <main>
-    <section class="hero">
-      <div><h1>Selamat datang di desa kita.</h1><p>Jelajahi dunia 3D, kenali warga, dan bangun komunitas bersama.</p></div>
-      <div class="pill">Versi awal • Gratis</div>
-    </section>
-    <section class="layout">
-      <div class="world panel">
-        <div class="panel-title"><div><h2>Dunia 3D</h2><p>Gunakan tombol panah atau WASD untuk bergerak.</p></div><button id="resetView" class="secondary">Atur kamera</button></div>
-        <div id="world"></div>
-        <div class="world-note">Pratinjau dunia 3D. Bangunan contoh belum tersimpan ke database.</div>
+<header>
+  <div>
+    <strong>DESA VIRTUAL</strong>
+    <small>Dunia komunitas digital</small>
+  </div>
+  <div id="accountArea">
+    <span id="status">Mode pratinjau</span>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <h1>Selamat datang di desa kita.</h1>
+      <p>Jelajahi dunia 3D, kenali warga, dan bangun komunitas bersama.</p>
+    </div>
+    <div class="pill">Versi pengembangan • Gratis</div>
+  </section>
+
+  <section class="layout">
+    <div class="world panel">
+      <div class="panel-title">
+        <div>
+          <h2>Dunia 3D</h2>
+          <p>Jelajahi desa dan gerakkan avatarmu.</p>
+        </div>
+        <button id="resetView" class="secondary">Atur kamera</button>
       </div>
-      <aside class="panel side">
-        <h2>Akun warga</h2>
-        <div id="authBox">
-          <label>Email<input id="email" type="email" placeholder="nama@email.com"></label>
-          <label>Kata sandi<input id="password" type="password" placeholder="Minimal 8 karakter"></label>
-          <div class="buttons"><button id="signup">Daftar</button><button id="login" class="secondary">Masuk</button></div>
-          <p class="hint">Akun dan penyimpanan online aktif setelah kamu menghubungkan Supabase. Jangan gunakan kata sandi yang sama dengan akun pentingmu.</p>
+
+      <div id="world"></div>
+
+      <div class="world-note">
+        Gunakan WASD, tombol panah, atau kontrol layar HP.
+      </div>
+
+      <div id="mobileControls" class="mobile-controls">
+        <button id="moveUp" type="button">▲</button>
+        <div>
+          <button id="moveLeft" type="button">◀</button>
+          <button id="moveDown" type="button">▼</button>
+          <button id="moveRight" type="button">▶</button>
         </div>
-        <div id="profileBox" hidden>
-          <p id="profileInfo"></p><p>Saldo internal: <strong id="balance">— CC</strong></p>
-          <button id="logout" class="secondary">Keluar</button>
+      </div>
+    </div>
+
+    <aside class="panel side">
+      <h2>Akun warga</h2>
+
+      <div id="authBox">
+        <label>Email
+          <input id="email" type="email" placeholder="nama@email.com">
+        </label>
+
+        <label>Kata sandi
+          <input id="password" type="password" placeholder="Minimal 8 karakter">
+        </label>
+
+        <div class="buttons">
+          <button id="signup">Daftar</button>
+          <button id="login" class="secondary">Masuk</button>
         </div>
-        <hr>
-        <h2>Fitur desa</h2>
-        <div class="feature"><b>Profil & avatar</b><span>Kerangka awal tersedia; editor avatar dikembangkan berikutnya.</span></div>
-        <div class="feature"><b>Obrolan warga</b><span>Database siap disiapkan; tampilan chat akan ditambahkan pada tahap berikutnya.</span></div>
-        <div class="feature"><b>Pasar warga</b><span>Struktur data produk disiapkan; belum menerima pembayaran.</span></div>
-        <div class="feature"><b>Saldo virtual</b><span>CC hanya kredit internal, bukan uang dan tidak dapat dicairkan.</span></div>
-      </aside>
-    </section>
-    <section class="panel admin">
-      <h2>Panel pembangunan</h2>
-      <p>Pengelolaan bangunan permanen hanya untuk akun yang ditetapkan sebagai admin melalui dashboard database. Warga biasa tidak boleh mengubah peta.</p>
-      <p id="adminStatus" class="hint">Masuk untuk memeriksa peran akun.</p>
-    </section>
-  </main>
-  <footer>Desa Virtual • Prototipe komunitas 3D • Bukan layanan transaksi uang</footer>
-  <dialog id="notice"><div class="dialog-inner"><h3 id="noticeTitle">Informasi</h3><p id="noticeText"></p><button id="closeNotice">Tutup</button></div></dialog>
-  <script>
-    window.DESAV_CONFIG = { supabaseUrl: "https://gkyidqesqhbwlldfuzrf.supabase.co", supabaseAnonKey: "sb_publishable_iz2ESjnpZdGOAmeoACKv7Q_O7AVWIb5" };
-  </script>
-  <script type="module" src="app.js"></script>
+
+        <p class="hint">
+          Gunakan akun Desa Virtual untuk menyimpan profil dan avatarmu.
+        </p>
+      </div>
+
+      <div id="profileBox" hidden>
+        <p id="profileInfo"></p>
+        <p>Saldo internal: <strong id="balance">— CC</strong></p>
+        <button id="logout" class="secondary">Keluar</button>
+      </div>
+
+      <hr>
+
+      <h2>Fitur desa</h2>
+
+      <div class="feature">
+        <b>Profil dan avatar</b>
+        <span>Buat karakter dan simpan penampilanmu.</span>
+      </div>
+
+      <div class="feature">
+        <b>Obrolan warga</b>
+        <span>Ruang komunikasi komunitas.</span>
+      </div>
+
+      <div class="feature">
+        <b>Pasar warga</b>
+        <span>Tempat memajang barang dan produk.</span>
+      </div>
+
+      <div class="feature">
+        <b>Saldo virtual</b>
+        <span>CC adalah kredit internal, bukan uang tunai.</span>
+      </div>
+    </aside>
+  </section>
+
+  <section class="panel avatar-panel">
+    <h2>🎨 Studio Avatar</h2>
+    <p>Buat karakter 3D milikmu sendiri.</p>
+
+    <div class="avatar-editor">
+      <div id="avatarPreview" class="avatar-preview">
+        <div id="avatarPreviewPlaceholder">
+          Pratinjau avatar akan muncul di sini.
+        </div>
+      </div>
+
+      <div class="avatar-options">
+        <label>Nama karakter
+          <input id="avatarName" type="text"
+                 maxlength="20" placeholder="Nama avatarmu">
+        </label>
+
+        <label>Warna kulit
+          <select id="skinColor">
+            <option value="#f1c49b">Cerah</option>
+            <option value="#d99b70">Sawo matang</option>
+            <option value="#a96f4d">Cokelat</option>
+            <option value="#70452f">Gelap</option>
+          </select>
+        </label>
+
+        <label>Gaya rambut
+          <select id="hairStyle">
+            <option value="short">Pendek</option>
+            <option value="spiky">Berdiri</option>
+            <option value="long">Panjang</option>
+            <option value="none">Tanpa rambut</option>
+          </select>
+        </label>
+
+        <label>Warna rambut
+          <select id="hairColor">
+            <option value="#30251f">Hitam</option>
+            <option value="#704322">Cokelat</option>
+            <option value="#d6b45c">Pirang</option>
+            <option value="#b83e35">Merah</option>
+            <option value="#eeeeee">Putih</option>
+          </select>
+        </label>
+
+        <label>Warna baju
+          <select id="shirtColor">
+            <option value="#2869b2">Biru</option>
+            <option value="#d94343">Merah</option>
+            <option value="#268451">Hijau</option>
+            <option value="#854bb2">Ungu</option>
+            <option value="#333333">Hitam</option>
+            <option value="#eeeeee">Putih</option>
+          </select>
+        </label>
+
+        <label>Warna celana
+          <select id="pantsColor">
+            <option value="#263b59">Biru tua</option>
+            <option value="#333333">Hitam</option>
+            <option value="#785638">Cokelat</option>
+            <option value="#eeeeee">Putih</option>
+            <option value="#34764b">Hijau</option>
+          </select>
+        </label>
+
+        <button id="previewAvatar" type="button">
+          Lihat Perubahan
+        </button>
+
+        <button id="saveAvatar" type="button">
+          Simpan Avatar
+        </button>
+
+        <p id="avatarStatus" class="hint">
+          Masuk ke akun terlebih dahulu untuk menyimpan avatar.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel admin">
+    <h2>Panel pembangunan</h2>
+    <p>
+      Pengelolaan bangunan permanen hanya untuk akun admin.
+      Warga biasa tidak dapat mengubah peta desa.
+    </p>
+    <p id="adminStatus" class="hint">
+      Masuk untuk memeriksa peran akun.
+    </p>
+  </section>
+</main>
+
+<footer>
+  Desa Virtual • Komunitas 3D • Bukan layanan transaksi uang
+</footer>
+
+<dialog id="notice">
+  <div class="dialog-inner">
+    <h3 id="noticeTitle">Informasi</h3>
+    <p id="noticeText"></p>
+    <button id="closeNotice">Tutup</button>
+  </div>
+</dialog>
+
+<script>
+  window.DESAV_CONFIG = {
+    supabaseUrl: "https://gkyidqesqhbwlldfuzrf.supabase.co",
+    supabaseAnonKey: "sb_publishable_iz2ESjnpZdGOAmeoACKv7Q_O7AVWIb5"
+  };
+</script>
+
+<script type="module" src="app.js"></script>
 </body>
 </html>
